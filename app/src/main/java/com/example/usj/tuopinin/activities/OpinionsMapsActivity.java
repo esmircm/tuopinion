@@ -1,8 +1,9 @@
-package com.example.usj.tuopinin;
+package com.example.usj.tuopinin.activities;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.example.usj.tuopinin.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">TuOpinión</string>
     <string name="title_activity_opinions_maps">Map</string>
+    <string name="title_name">Name</string>
+    <string name="name_hint">Enter your name…</string>
+    <string name="title_surname">Surname</string>
+    <string name="surname_hint">Enter your surname…</string>
+    <string name="title_phone_number">Phone number</string>
+    <string name="hint_phone_number">Enter your phone number…</string>
+    <string name="title_gender">Gender</string>
+    <string name="male_radio_button">Male</string>
+    <string name="female_radio_button">Female</string>
+    <string name="other_radio_button">Other</string>
+    <string name="age_title">Age</string>
+    <string name="title_age">Age</string>
+    <string name="hint_age">Enter your age..</string>
+    <string name="button_save">Save</string>
 </resources>

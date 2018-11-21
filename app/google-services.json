@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "705790427616",
+    "firebase_url": "https://tuopinion-a3267.firebaseio.com",
+    "project_id": "tuopinion-a3267",
+    "storage_bucket": "tuopinion-a3267.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705790427616:android:4068ec167b84414c",
+        "android_client_info": {
+          "package_name": "com.example.usj.tuopinin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705790427616-jaej0e63aol93k3pu3tpkirh325u8rc4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.usj.tuopinin",
+            "certificate_hash": "3aeaec03dbf3c92712e16d72317e7e5c0d83995d"
+          }
+        },
+        {
+          "client_id": "705790427616-746sj6318cqls693hh2eu7jt0hqtkm79.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJCFdzEpiUsthsvs_A4J0VMrgq08Zr0VI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705790427616-746sj6318cqls693hh2eu7jt0hqtkm79.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
