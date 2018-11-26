@@ -1,6 +1,8 @@
 package com.example.usj.tuopinin.view;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.usj.tuopinin.Constants;
 import com.example.usj.tuopinin.NavigationHelper;
 import com.example.usj.tuopinin.R;
 import com.example.usj.tuopinin.model.DataProvider;
@@ -18,6 +21,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 @SuppressLint("Registered")
@@ -106,6 +110,21 @@ public class AddDetailsActivity extends AppCompatActivity implements AddDetailsV
     @Override
     public void openMapsActivity() {
         navigationHelper.openActivity(this, OpinionsMapsActivity.class);
+    }
+
+    @OnActivityResult(Constants.REQUEST_IMAGE_CAMERA)
+    void getPhotoDataFromCamera(int resultCode, Intent data) {
+        addDetailsPresenter.setPhotoFromCamera(resultCode, data);
+    }
+
+    @OnActivityResult(Constants.PICK_IMAGE)
+    void getPhotoDataFromGallery(int resultCode, Intent data) {
+        addDetailsPresenter.setPhotoFromGallery(resultCode, data);
+    }
+
+    @Override
+    public void setPhoto(Bitmap bitmap){
+        photoImageView.setImageBitmap(bitmap);
     }
 
     @Override
