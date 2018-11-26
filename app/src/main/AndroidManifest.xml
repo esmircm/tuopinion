@@ -17,11 +17,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.OpinionsMapsActivity"
+            android:name=".view.OpinionsMapsActivity"
             android:label="@string/title_activity_opinions_maps">
 
         </activity>
-        <activity android:name=".activities.AddDetailsActivity_">
+        <activity android:name=".view.AddDetailsActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

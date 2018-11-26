@@ -1,4 +1,4 @@
-package com.example.usj.tuopinin.models;
+package com.example.usj.tuopinin.model;
 
 public class User {
 
