@@ -1,21 +1,26 @@
 package com.example.usj.tuopinin.model;
 
+import android.util.Log;
+
+import com.example.usj.tuopinin.StringHelper;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class DataProvider implements DataProviderInterface {
 
     DatabaseReference databaseReference;
     User user;
 
-    // Remove firebase dependency
     public DataProvider() {
         getFirebaseInstance();
     }
 
     void getFirebaseInstance() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("message");
+        databaseReference = database.getReference("users");
         user = new User();
     }
 
@@ -27,7 +32,26 @@ public class DataProvider implements DataProviderInterface {
         user.setPhoneNumber(phoneNumber);
         user.setAge(age);
         user.setGender(gender);
-        databaseReference.setValue(user);
-        onFinishedInterfaceListener.onFinished();
+        String userId = databaseReference.push().getKey();
+        if (StringHelper.notNullAndNotEmpty(userId)) {
+            databaseReference.child(userId).setValue(user);
+            onFinishedInterfaceListener.onFinished();
+        }
+    }
+
+    @Override
+    public void getUser(String userId, OnFinishedGettingUserDataListener listener) {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = (User) dataSnapshot.getValue();
+                listener.setUserData(user);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.v("Error", databaseError.getMessage());
+            }
+        });
     }
 }
