@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import com.example.usj.tuopinin.Constants;
 import com.example.usj.tuopinin.StringHelper;
 import com.example.usj.tuopinin.model.DataProviderInterface;
+import com.example.usj.tuopinin.model.OnFinishedInterfaceListener;
 import com.example.usj.tuopinin.view.AddDetailsView;
 
 import java.io.IOException;
@@ -29,15 +30,21 @@ public class AddDetailsPresenter {
 
     public void saveUser(String name, String surname, String phoneNumber, String age, String gender) {
         if (checkIfValuesAreEmpty(name, surname, phoneNumber, age, gender)) {
-            dataProvider.saveUserDetails(name, surname, phoneNumber, age, gender, () -> {
-                if (addDetailsView != null) {
-                    addDetailsView.openMapsActivity();
+            dataProvider.saveUserDetails(name, surname, phoneNumber, age, gender, new OnFinishedInterfaceListener() {
+                @Override
+                public void onSuccess() {
+                    if (addDetailsView != null) {
+                        addDetailsView.openMapsActivity();
+                    }
+                }
+
+                @Override
+                public void onError() {
+                    if (addDetailsView != null) {
+                        addDetailsView.showErrorToastMessage();
+                    }
                 }
             });
-        } else {
-            if (addDetailsView != null) {
-                addDetailsView.showErrorToastMessage();
-            }
         }
     }
 

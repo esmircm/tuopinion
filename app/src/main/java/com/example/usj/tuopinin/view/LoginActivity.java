@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.usj.tuopinin.R;
 import com.example.usj.tuopinin.model.DataProvider;
+import com.example.usj.tuopinin.model.OnFinishedInterfaceListener;
 import com.example.usj.tuopinin.presenter.LoginPresenter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -38,7 +40,18 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void onLoginButtonClick() {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        loginPresenter.loginUser(username, password, this::openAddDetailsActivity);
+        loginPresenter.loginUser(username, password, new OnFinishedInterfaceListener() {
+            @Override
+            public void onSuccess() {
+                openAddDetailsActivity();
+            }
+
+            @Override
+            public void onError() {
+                Toast.makeText(LoginActivity.this, "Wrong credentials", Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
 
     @Override
@@ -46,10 +59,20 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void onRegisterClick() {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        loginPresenter.registerUser(username, password, this::openAddDetailsActivity);
+        loginPresenter.registerUser(username, password, new OnFinishedInterfaceListener() {
+            @Override
+            public void onSuccess() {
+                openAddDetailsActivity();
+            }
+
+            @Override
+            public void onError() {
+                Toast.makeText(LoginActivity.this, "This username already exist.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void openAddDetailsActivity(){
+    private void openAddDetailsActivity() {
         Intent intent = new Intent(this, AddDetailsActivity_.class);
         startActivity(intent);
     }

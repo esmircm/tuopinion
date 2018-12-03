@@ -10,6 +10,7 @@ public class DataProvider implements DataProviderInterface {
     DatabaseReference databaseReference;
     FirebaseDatabase database;
     private SharedPreferences sharedPreferences;
+    private String uniqueKey;
 
     public DataProvider(SharedPreferences sharedPreference) {
         this.sharedPreferences = sharedPreference;
@@ -23,30 +24,39 @@ public class DataProvider implements DataProviderInterface {
     @Override
     public void saveUserDetails(String name, String surname, String phoneNumber, String age, String gender, OnFinishedInterfaceListener onFinishedInterfaceListener) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("name", name);
-        editor.putString("surname", surname);
-        editor.putString("phoneNumber", phoneNumber);
-        editor.putString("age", age);
-        editor.putString("gender", gender);
+        editor.putString(uniqueKey + "name", name);
+        editor.putString(uniqueKey + "surname", surname);
+        editor.putString(uniqueKey + "phoneNumber", phoneNumber);
+        editor.putString(uniqueKey + "age", age);
+        editor.putString(uniqueKey + "gender", gender);
         editor.apply();
-        onFinishedInterfaceListener.onFinished();
+        onFinishedInterfaceListener.onSuccess();
     }
 
     @Override
-    public void saveUserCredentials(String username, String password, OnFinishedInterfaceListener onFinishedInterfaceListener) {
+    public void registerUserCredentials(String username, String password, OnFinishedInterfaceListener onFinishedInterfaceListener) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("username", username);
-        editor.putString("password", password);
-        editor.apply();
-        onFinishedInterfaceListener.onFinished();
+        uniqueKey = username;
+        String savedUniqueKey = sharedPreferences.getString(uniqueKey, "");
+        if (savedUniqueKey.equals("") || !savedUniqueKey.equals(uniqueKey)) {
+            editor.putString(uniqueKey, username);
+            editor.putString(uniqueKey + "password", password);
+            editor.apply();
+            onFinishedInterfaceListener.onSuccess();
+        } else {
+            onFinishedInterfaceListener.onError();
+        }
     }
 
     @Override
     public void loginUser(String username, String password, OnFinishedInterfaceListener onFinishedInterfaceListener) {
-        String savedUsername = sharedPreferences.getString("username", "");
-        String  savedPassword = sharedPreferences.getString("password", "");
-        if (savedUsername.equals(username) && savedPassword.equals(password)){
-            onFinishedInterfaceListener.onFinished();
+        uniqueKey = username;
+        String savedUsername = sharedPreferences.getString(uniqueKey, "");
+        String savedPassword = sharedPreferences.getString(uniqueKey + "password", "");
+        if (savedUsername.equals(username) && savedPassword.equals(password)) {
+            onFinishedInterfaceListener.onSuccess();
+        } else {
+            onFinishedInterfaceListener.onError();
         }
     }
 }

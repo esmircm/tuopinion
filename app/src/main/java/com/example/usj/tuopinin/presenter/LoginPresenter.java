@@ -19,7 +19,7 @@ public class LoginPresenter {
     }
 
     public void registerUser(String username, String password, OnFinishedInterfaceListener onFinishedInterfaceListener) {
-        dataProvider.saveUserCredentials(username, password, onFinishedInterfaceListener);
+        dataProvider.registerUserCredentials(username, password, onFinishedInterfaceListener);
     }
 }
 
