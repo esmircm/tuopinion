@@ -23,12 +23,16 @@
 
         </activity>
         <activity android:name=".view.AddDetailsActivity_">
+
+        </activity>
+        <activity android:name=".view.LoginActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

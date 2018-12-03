@@ -1,6 +1,7 @@
 package com.example.usj.tuopinin.view;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
@@ -56,7 +57,7 @@ public class AddDetailsActivity extends AppCompatActivity implements AddDetailsV
 
     @AfterViews
     void setupPresenter() {
-        addDetailsPresenter = new AddDetailsPresenter(this, new DataProvider());
+        addDetailsPresenter = new AddDetailsPresenter(this, new DataProvider(getPreferences(Context.MODE_PRIVATE)));
     }
 
     @Override

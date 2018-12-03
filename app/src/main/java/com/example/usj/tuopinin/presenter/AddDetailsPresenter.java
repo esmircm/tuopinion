@@ -9,7 +9,7 @@ import android.provider.MediaStore;
 
 import com.example.usj.tuopinin.Constants;
 import com.example.usj.tuopinin.StringHelper;
-import com.example.usj.tuopinin.model.DataProvider;
+import com.example.usj.tuopinin.model.DataProviderInterface;
 import com.example.usj.tuopinin.view.AddDetailsView;
 
 import java.io.IOException;
@@ -20,16 +20,16 @@ import static com.example.usj.tuopinin.Constants.PICK_IMAGE;
 public class AddDetailsPresenter {
 
     private AddDetailsView addDetailsView;
-    private DataProvider dataProvider;
+    private DataProviderInterface dataProvider;
 
-    public AddDetailsPresenter(AddDetailsView addDetailsView, DataProvider dataProvider) {
+    public AddDetailsPresenter(AddDetailsView addDetailsView, DataProviderInterface dataProvider) {
         this.addDetailsView = addDetailsView;
         this.dataProvider = dataProvider;
     }
 
     public void saveUser(String name, String surname, String phoneNumber, String age, String gender) {
         if (checkIfValuesAreEmpty(name, surname, phoneNumber, age, gender)) {
-            dataProvider.saveUser(name, surname, phoneNumber, age, gender, () -> {
+            dataProvider.saveUserDetails(name, surname, phoneNumber, age, gender, () -> {
                 if (addDetailsView != null) {
                     addDetailsView.openMapsActivity();
                 }

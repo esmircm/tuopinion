@@ -1,57 +1,52 @@
 package com.example.usj.tuopinin.model;
 
-import android.util.Log;
+import android.content.SharedPreferences;
 
-import com.example.usj.tuopinin.StringHelper;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class DataProvider implements DataProviderInterface {
 
     DatabaseReference databaseReference;
-    User user;
+    FirebaseDatabase database;
+    private SharedPreferences sharedPreferences;
 
-    public DataProvider() {
+    public DataProvider(SharedPreferences sharedPreference) {
+        this.sharedPreferences = sharedPreference;
         getFirebaseInstance();
     }
 
     void getFirebaseInstance() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("users");
-        user = new User();
+        database = FirebaseDatabase.getInstance();
     }
 
     @Override
-    public void saveUser(String name, String surname, String phoneNumber, String age, String gender, OnFinishedInterfaceListener onFinishedInterfaceListener) {
-        User user = new User();
-        user.setName(name);
-        user.setSurname(surname);
-        user.setPhoneNumber(phoneNumber);
-        user.setAge(age);
-        user.setGender(gender);
-        String userId = databaseReference.push().getKey();
-        if (StringHelper.notNullAndNotEmpty(userId)) {
-            databaseReference.child(userId).setValue(user);
+    public void saveUserDetails(String name, String surname, String phoneNumber, String age, String gender, OnFinishedInterfaceListener onFinishedInterfaceListener) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("name", name);
+        editor.putString("surname", surname);
+        editor.putString("phoneNumber", phoneNumber);
+        editor.putString("age", age);
+        editor.putString("gender", gender);
+        editor.apply();
+        onFinishedInterfaceListener.onFinished();
+    }
+
+    @Override
+    public void saveUserCredentials(String username, String password, OnFinishedInterfaceListener onFinishedInterfaceListener) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("username", username);
+        editor.putString("password", password);
+        editor.apply();
+        onFinishedInterfaceListener.onFinished();
+    }
+
+    @Override
+    public void loginUser(String username, String password, OnFinishedInterfaceListener onFinishedInterfaceListener) {
+        String savedUsername = sharedPreferences.getString("username", "");
+        String  savedPassword = sharedPreferences.getString("password", "");
+        if (savedUsername.equals(username) && savedPassword.equals(password)){
             onFinishedInterfaceListener.onFinished();
         }
-    }
-
-    @Override
-    public void getUser(String userId, OnFinishedGettingUserDataListener listener) {
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = (User) dataSnapshot.getValue();
-                listener.setUserData(user);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.v("Error", databaseError.getMessage());
-            }
-        });
     }
 }
