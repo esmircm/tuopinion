@@ -1,4 +1,4 @@
-package com.example.usj.tuopinin.activities;
+package com.example.usj.tuopinin.view;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;

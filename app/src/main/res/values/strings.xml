@@ -15,4 +15,6 @@
     <string name="title_age">Age</string>
     <string name="hint_age">Enter your age..</string>
     <string name="button_save">Save</string>
+    <string name="register">register</string>
+    <string name="sign_in">sign in</string>
 </resources>

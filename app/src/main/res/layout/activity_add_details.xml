@@ -10,7 +10,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".activities.AddDetailsActivity">
+        tools:context=".view.AddDetailsActivity">
 
         <TextView
             android:id="@+id/textView2"
@@ -24,7 +24,7 @@
 
         <EditText
             android:id="@+id/nameEditText"
-            android:layout_width="wrap_content"
+            android:layout_width="215dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -36,7 +36,7 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
@@ -46,13 +46,15 @@
 
         <EditText
             android:id="@+id/surnameEditText"
-            android:layout_width="wrap_content"
+            android:layout_width="215dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="5dp"
             android:ems="10"
             android:hint="@string/surname_hint"
             android:inputType="textPersonName"
+            app:layout_constraintEnd_toStartOf="@+id/photoImageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -68,13 +70,15 @@
 
         <EditText
             android:id="@+id/phoneNumberEditText"
-            android:layout_width="wrap_content"
+            android:layout_width="215dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="5dp"
             android:ems="10"
             android:hint="@string/hint_phone_number"
             android:inputType="phone"
+            app:layout_constraintEnd_toStartOf="@+id/photoImageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -94,7 +98,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="5dp"
             android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@+id/photoImageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5">
 
@@ -130,13 +136,15 @@
 
         <EditText
             android:id="@+id/ageEditText"
-            android:layout_width="wrap_content"
+            android:layout_width="215dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="5dp"
             android:ems="10"
             android:hint="@string/hint_age"
             android:inputType="number"
+            app:layout_constraintEnd_toStartOf="@+id/photoImageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -160,9 +168,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.061"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/galleryImageButton"
             app:layout_constraintStart_toEndOf="@+id/nameEditText"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_menu_camera" />
@@ -181,14 +188,18 @@
 
         <ImageView
             android:id="@+id/photoImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="128dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.555"
             app:layout_constraintStart_toEndOf="@+id/surnameEditText"
             app:layout_constraintTop_toBottomOf="@+id/cameraImageButton"
+            app:layout_constraintVertical_bias="0.047"
             tools:srcCompat="@tools:sample/avatars" />
 
     </android.support.constraint.ConstraintLayout>
