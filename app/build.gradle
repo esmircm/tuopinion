@@ -36,6 +36,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:16.0.5'
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
+    implementation 'org.greenrobot:greendao:3.2.2'
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+

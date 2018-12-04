@@ -1,7 +1,6 @@
 package com.example.usj.tuopinin.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
@@ -15,21 +14,28 @@ import android.widget.Toast;
 import com.example.usj.tuopinin.Constants;
 import com.example.usj.tuopinin.NavigationHelper;
 import com.example.usj.tuopinin.R;
-import com.example.usj.tuopinin.model.DataProvider;
+import com.example.usj.tuopinin.TuOpinionApplication;
+import com.example.usj.tuopinin.model.UserDataSql;
 import com.example.usj.tuopinin.presenter.AddDetailsPresenter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
+
+import static com.example.usj.tuopinin.Constants.USER_ID;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_add_details)
 public class AddDetailsActivity extends AppCompatActivity implements AddDetailsView {
 
     AddDetailsPresenter addDetailsPresenter;
+
+    @Extra(USER_ID)
+    long id;
 
     @Bean
     NavigationHelper navigationHelper;
@@ -57,7 +63,7 @@ public class AddDetailsActivity extends AppCompatActivity implements AddDetailsV
 
     @AfterViews
     void setupPresenter() {
-        addDetailsPresenter = new AddDetailsPresenter(this, new DataProvider(getPreferences(Context.MODE_PRIVATE)));
+        addDetailsPresenter = new AddDetailsPresenter(this, new UserDataSql(((TuOpinionApplication) getApplication()).getDaoSession()));
     }
 
     @Override
@@ -68,7 +74,7 @@ public class AddDetailsActivity extends AppCompatActivity implements AddDetailsV
         String phoneNumber = phoneNumberEditText.getText().toString();
         String age = ageEditText.getText().toString();
         String gender = getSelectedGender();
-        addDetailsPresenter.saveUser(name, surname, phoneNumber, age, gender);
+        addDetailsPresenter.saveUser(name, surname, phoneNumber, age, gender, id);
     }
 
     public String getSelectedGender() {
@@ -124,7 +130,7 @@ public class AddDetailsActivity extends AppCompatActivity implements AddDetailsV
     }
 
     @Override
-    public void setPhoto(Bitmap bitmap){
+    public void setPhoto(Bitmap bitmap) {
         photoImageView.setImageBitmap(bitmap);
     }
 

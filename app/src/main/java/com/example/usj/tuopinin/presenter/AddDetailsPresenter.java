@@ -9,7 +9,7 @@ import android.provider.MediaStore;
 
 import com.example.usj.tuopinin.Constants;
 import com.example.usj.tuopinin.StringHelper;
-import com.example.usj.tuopinin.model.DataProviderInterface;
+import com.example.usj.tuopinin.model.UserDataProvider;
 import com.example.usj.tuopinin.model.OnFinishedInterfaceListener;
 import com.example.usj.tuopinin.view.AddDetailsView;
 
@@ -21,16 +21,16 @@ import static com.example.usj.tuopinin.Constants.PICK_IMAGE;
 public class AddDetailsPresenter {
 
     private AddDetailsView addDetailsView;
-    private DataProviderInterface dataProvider;
+    private UserDataProvider dataProvider;
 
-    public AddDetailsPresenter(AddDetailsView addDetailsView, DataProviderInterface dataProvider) {
+    public AddDetailsPresenter(AddDetailsView addDetailsView, UserDataProvider dataProvider) {
         this.addDetailsView = addDetailsView;
         this.dataProvider = dataProvider;
     }
 
-    public void saveUser(String name, String surname, String phoneNumber, String age, String gender) {
+    public void saveUser(String name, String surname, String phoneNumber, String age, String gender, long id) {
         if (checkIfValuesAreEmpty(name, surname, phoneNumber, age, gender)) {
-            dataProvider.saveUserDetails(name, surname, phoneNumber, age, gender, new OnFinishedInterfaceListener() {
+            dataProvider.saveUserDetails(name, surname, phoneNumber, age, gender, id, new OnFinishedInterfaceListener() {
                 @Override
                 public void onSuccess() {
                     if (addDetailsView != null) {

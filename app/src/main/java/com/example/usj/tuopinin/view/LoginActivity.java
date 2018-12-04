@@ -1,21 +1,23 @@
 package com.example.usj.tuopinin.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.usj.tuopinin.R;
-import com.example.usj.tuopinin.model.DataProvider;
-import com.example.usj.tuopinin.model.OnFinishedInterfaceListener;
+import com.example.usj.tuopinin.TuOpinionApplication;
+import com.example.usj.tuopinin.model.UserDataSql;
+import com.example.usj.tuopinin.model.entities.OnRegisterListener;
 import com.example.usj.tuopinin.presenter.LoginPresenter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+import static com.example.usj.tuopinin.Constants.USER_ID;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_login)
@@ -32,7 +34,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @AfterViews
     void setupPresenter() {
-        loginPresenter = new LoginPresenter(this, new DataProvider(getPreferences(Context.MODE_PRIVATE)));
+        loginPresenter = new LoginPresenter(this, new UserDataSql(((TuOpinionApplication) getApplication()).getDaoSession()));
     }
 
     @Override
@@ -40,10 +42,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void onLoginButtonClick() {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        loginPresenter.loginUser(username, password, new OnFinishedInterfaceListener() {
+        loginPresenter.loginUser(username, password, new OnRegisterListener() {
             @Override
-            public void onSuccess() {
-                openAddDetailsActivity();
+            public void onSuccess(long id) {
+                openAddDetailsActivity(id);
             }
 
             @Override
@@ -59,10 +61,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void onRegisterClick() {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        loginPresenter.registerUser(username, password, new OnFinishedInterfaceListener() {
+        loginPresenter.registerUser(username, password, new OnRegisterListener() {
             @Override
-            public void onSuccess() {
-                openAddDetailsActivity();
+            public void onSuccess(long id) {
+                openAddDetailsActivity(id);
             }
 
             @Override
@@ -72,8 +74,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         });
     }
 
-    private void openAddDetailsActivity() {
+    private void openAddDetailsActivity(long id) {
         Intent intent = new Intent(this, AddDetailsActivity_.class);
+        intent.putExtra(USER_ID, id);
         startActivity(intent);
     }
 }
