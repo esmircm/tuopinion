@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.example.usj.tuopinin.R;
 import com.example.usj.tuopinin.TuOpinionApplication;
-import com.example.usj.tuopinin.model.UserDataSql;
+import com.example.usj.tuopinin.model.UserData;
 import com.example.usj.tuopinin.model.entities.OnRegisterListener;
 import com.example.usj.tuopinin.presenter.LoginPresenter;
 
@@ -34,18 +34,19 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @AfterViews
     void setupPresenter() {
-        loginPresenter = new LoginPresenter(this, new UserDataSql(((TuOpinionApplication) getApplication()).getDaoSession()));
+        loginPresenter = new LoginPresenter(this, new UserData(((TuOpinionApplication) getApplication()).getDaoSession()));
     }
 
     @Override
     @Click(R.id.sign_in_button)
     public void onLoginButtonClick() {
+
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         loginPresenter.loginUser(username, password, new OnRegisterListener() {
             @Override
             public void onSuccess(long id) {
-                openAddDetailsActivity(id);
+                openOpinionsMapsActivity(id);
             }
 
             @Override
@@ -79,4 +80,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         intent.putExtra(USER_ID, id);
         startActivity(intent);
     }
+
+    private void openOpinionsMapsActivity(long id) {
+        Intent intent = new Intent(this, OpinionsMapsActivity.class);
+        intent.putExtra(USER_ID, id);
+        startActivity(intent);
+    }
+
 }

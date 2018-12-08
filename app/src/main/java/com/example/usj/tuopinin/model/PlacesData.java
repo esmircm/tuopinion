@@ -2,6 +2,7 @@ package com.example.usj.tuopinin.model;
 
 import android.support.annotation.NonNull;
 
+import com.example.usj.tuopinin.model.entities.DaoSession;
 import com.example.usj.tuopinin.model.entities.Place;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -11,33 +12,43 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-public class PlacesDataFirebase implements PlacesDataProvider {
+public class PlacesData implements PlacesDataProvider {
 
     FirebaseDatabase database;
     DatabaseReference databaseReference;
+    private DaoSession daoSession;
 
-    public PlacesDataFirebase() {
+    public PlacesData(DaoSession daoSession) {
         getFirebaseInstance();
-
+        this.daoSession = daoSession;
     }
 
     void getFirebaseInstance() {
         database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("places");
         savePlacesIntoSql();
     }
 
 
     @Override
     public void savePlace(Place place, OnFinishedInterfaceListener onFinishedInterfaceListener) {
-        databaseReference = database.getReference("places");
         databaseReference.push().setValue(place);
+        onFinishedInterfaceListener.onSuccess();
+    }
+
+    @Override
+    public List<Place> getAllPlaces() {
+        return daoSession.getPlaceDao().loadAll();
     }
 
     private void savePlacesIntoSql() {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Place> places = (List<Place>) dataSnapshot;
+                for (DataSnapshot placeSnapshot: dataSnapshot.getChildren()) {
+                    Place place = placeSnapshot.getValue(Place.class);
+                    daoSession.getPlaceDao().insert(place);
+                }
 
             }
 

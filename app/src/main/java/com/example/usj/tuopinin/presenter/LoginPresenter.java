@@ -19,13 +19,11 @@ public class LoginPresenter {
     }
 
     public void loginUser(String username, String password, OnRegisterListener onRegisterListener) {
-        users = dataProvider.getAllUsers();
-        for (User user : users) {
-            if (user.getUsername().equals(username) && (user.getPassword().equals(password))) {
-                onRegisterListener.onSuccess(user.getId());
-            } else {
-                onRegisterListener.onError();
-            }
+        users = dataProvider.getUserWithSpecificUsernameAndPassword(username, password);
+        if (users != null && users.size() > 0) {
+            onRegisterListener.onSuccess(users.get(0).getId());
+        } else {
+            onRegisterListener.onError();
         }
     }
 

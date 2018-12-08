@@ -12,4 +12,6 @@ public interface UserDataProvider {
 
     List<User> getAllUsers();
 
+    List<User> getUserWithSpecificUsernameAndPassword(String username, String password);
+
 }

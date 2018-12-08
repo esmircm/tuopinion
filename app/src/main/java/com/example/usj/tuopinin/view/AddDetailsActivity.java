@@ -15,7 +15,7 @@ import com.example.usj.tuopinin.Constants;
 import com.example.usj.tuopinin.NavigationHelper;
 import com.example.usj.tuopinin.R;
 import com.example.usj.tuopinin.TuOpinionApplication;
-import com.example.usj.tuopinin.model.UserDataSql;
+import com.example.usj.tuopinin.model.UserData;
 import com.example.usj.tuopinin.presenter.AddDetailsPresenter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -63,7 +63,7 @@ public class AddDetailsActivity extends AppCompatActivity implements AddDetailsV
 
     @AfterViews
     void setupPresenter() {
-        addDetailsPresenter = new AddDetailsPresenter(this, new UserDataSql(((TuOpinionApplication) getApplication()).getDaoSession()));
+        addDetailsPresenter = new AddDetailsPresenter(this, new UserData(((TuOpinionApplication) getApplication()).getDaoSession()));
     }
 
     @Override
