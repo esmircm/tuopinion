@@ -17,4 +17,10 @@
     <string name="button_save">Save</string>
     <string name="register">register</string>
     <string name="sign_in">sign in</string>
+    <string name="position">Current Position</string>
+    <string name="permission_title">Location Permission Needed</string>
+    <string name="permission_msg">This app needs the Location permission, please accept to use location functionality</string>
+    <string name="permission_denied">permission denied</string>
+
+
 </resources>
