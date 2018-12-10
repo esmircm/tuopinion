@@ -18,17 +18,27 @@ public class LoginPresenter {
         this.dataProvider = userDataProviderInterface;
     }
 
-    public void loginUser(String username, String password, OnRegisterListener onRegisterListener) {
+    public void loginUser(String username, String password) {
         users = dataProvider.getUserWithSpecificUsernameAndPassword(username, password);
         if (users != null && users.size() > 0) {
-            onRegisterListener.onSuccess(users.get(0).getId());
+            loginView.openMapsActivity(users.get(0).getId());
         } else {
-            onRegisterListener.onError();
+            loginView.showErrorMessage();
         }
     }
 
-    public void registerUser(String username, String password, OnRegisterListener onRegisterListener) {
-        dataProvider.registerUserCredentials(username, password, onRegisterListener);
+    public void registerUser(String username, String password) {
+        dataProvider.registerUserCredentials(username, password, new OnRegisterListener() {
+            @Override
+            public void onSuccess(long id) {
+                loginView.openAddDetailsActivity(id);
+            }
+
+            @Override
+            public void onError() {
+                loginView.showErrorMessage();
+            }
+        });
     }
 }
 
