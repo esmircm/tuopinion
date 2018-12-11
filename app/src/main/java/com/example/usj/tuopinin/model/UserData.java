@@ -1,5 +1,7 @@
 package com.example.usj.tuopinin.model;
 
+import android.net.Uri;
+
 import com.example.usj.tuopinin.model.entities.DaoSession;
 import com.example.usj.tuopinin.model.entities.OnRegisterListener;
 import com.example.usj.tuopinin.model.entities.User;
@@ -18,7 +20,7 @@ public class UserData implements UserDataProvider {
     }
 
     @Override
-    public void saveUserDetails(String name, String surname, String phoneNumber, String age, String gender, long id, OnFinishedInterfaceListener onFinishedInterfaceListener) {
+    public void saveUserDetails(String name, String surname, String phoneNumber, String age, String gender, long id, Uri photoURI, OnFinishedInterfaceListener onFinishedInterfaceListener) {
         List<User> users = daoSession.getUserDao().loadAll();
 
         if (users != null && users.size() > 0 && users.get(0) != null) {
@@ -29,6 +31,7 @@ public class UserData implements UserDataProvider {
                     user.setPhoneNumber(phoneNumber);
                     user.setAge(age);
                     user.setGender(gender);
+                    user.setImageUri(String.valueOf(photoURI));
                     daoSession.getUserDao().update(user);
                     onFinishedInterfaceListener.onSuccess();
                 }

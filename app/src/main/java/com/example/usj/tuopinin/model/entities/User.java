@@ -1,9 +1,9 @@
 package com.example.usj.tuopinin.model.entities;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Property;
-import org.greenrobot.greendao.annotation.Generated;
 
 @Entity(nameInDb = "user")
 public class User {
@@ -24,14 +24,20 @@ public class User {
     private String age;
     @Property(nameInDb = "phoneNumber")
     private String phoneNumber;
-    @Property(nameInDb = "imageUrl")
-    private String imageUrl;
+    @Property(nameInDb = "imageUri")
+    private String imageUri;
 
 
-    @Generated(hash = 2090077642)
+
+    @Generated(hash = 586692638)
+    public User() {
+    }
+
+
+    @Generated(hash = 1583679463)
     public User(Long id, String username, String password, String name,
             String surname, String gender, String age, String phoneNumber,
-            String imageUrl) {
+            String imageUri) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -40,11 +46,7 @@ public class User {
         this.gender = gender;
         this.age = age;
         this.phoneNumber = phoneNumber;
-        this.imageUrl = imageUrl;
-    }
-
-    @Generated(hash = 586692638)
-    public User() {
+        this.imageUri = imageUri;
     }
     
 
@@ -96,12 +98,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImageUri() {
+        return imageUri;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 
     public String getUsername() {
