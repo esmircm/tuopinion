@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.usj.tuopinin">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -24,7 +24,8 @@
             android:label="@string/title_activity_opinions_maps">
 
         </activity>
-        <activity android:name=".view.AddDetailsActivity_">
+        <activity android:name=".view.AddDetailsActivity_"></activity>
+        <activity android:name=".view.AddLocationDetailsActivity_">
 
         </activity>
         <activity android:name=".view.LoginActivity_">
@@ -35,15 +36,15 @@
             </intent-filter>
         </activity>
 
-    <provider
-        android:name="android.support.v4.content.FileProvider"
-        android:authorities="com.example.usj.tuopinin.fileprovider"
-        android:exported="false"
-        android:grantUriPermissions="true">
-        <meta-data
-            android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/file_paths"></meta-data>
-    </provider>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.usj.tuopinin.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
 
-</application>
+    </application>
 </manifest>

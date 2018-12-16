@@ -24,6 +24,12 @@
     <string name="hint_username">Enter your username</string>
     <string name="hint_password">Enter your password</string>
     <string name="login_title">Tu opinión</string>
+    <string name="description_hint">Enter location description..</string>
+    <string name="location_name_hint">Enter location name..</string>
+    <string name="title_description">Description</string>
+    <string name="button_comment">Comment</string>
+    <string name="comment">Comment</string>
+    <string name="comment_hint">Enter your comment here..</string>
 
 
 </resources>

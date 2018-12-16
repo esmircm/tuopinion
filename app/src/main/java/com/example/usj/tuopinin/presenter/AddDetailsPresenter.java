@@ -5,7 +5,7 @@ import android.net.Uri;
 import com.example.usj.tuopinin.StringHelper;
 import com.example.usj.tuopinin.model.OnFinishedInterfaceListener;
 import com.example.usj.tuopinin.model.UserDataProvider;
-import com.example.usj.tuopinin.view.AddDetailsView;
+import com.example.usj.tuopinin.view.interfaces.AddDetailsView;
 
 public class AddDetailsPresenter {
 
@@ -22,16 +22,12 @@ public class AddDetailsPresenter {
             dataProvider.saveUserDetails(name, surname, phoneNumber, age, gender, id, photoURI, new OnFinishedInterfaceListener() {
                 @Override
                 public void onSuccess() {
-                    if (addDetailsView != null) {
-                        addDetailsView.openMapsActivity();
-                    }
+                    addDetailsView.openMapsActivity();
                 }
 
                 @Override
                 public void onError() {
-                    if (addDetailsView != null) {
-                        addDetailsView.showErrorToastMessage();
-                    }
+                    addDetailsView.showErrorToastMessage();
                 }
             });
         }
@@ -45,7 +41,6 @@ public class AddDetailsPresenter {
         boolean checkedGender = StringHelper.notNullAndNotEmpty(gender);
         return enteredName && enteredSurname && enteredPhoneNumber && enteredAge && checkedGender;
     }
-
 
     public void onDestroy() {
         addDetailsView = null;

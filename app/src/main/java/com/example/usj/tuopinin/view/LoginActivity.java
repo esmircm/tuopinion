@@ -10,6 +10,7 @@ import com.example.usj.tuopinin.R;
 import com.example.usj.tuopinin.TuOpinionApplication;
 import com.example.usj.tuopinin.model.UserData;
 import com.example.usj.tuopinin.presenter.LoginPresenter;
+import com.example.usj.tuopinin.view.interfaces.LoginView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -71,4 +72,14 @@ public class LoginActivity extends Activity implements LoginView {
         Toast.makeText(LoginActivity.this, "User credentials are not valid", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void askForUserCredentials() {
+        Toast.makeText(LoginActivity.this, "Choose your username and password", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        loginPresenter.onDestroy();
+    }
 }

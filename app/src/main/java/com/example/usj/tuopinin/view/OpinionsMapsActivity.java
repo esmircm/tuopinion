@@ -2,18 +2,24 @@ package com.example.usj.tuopinin.view;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
+import com.example.usj.tuopinin.Constants;
 import com.example.usj.tuopinin.R;
+import com.example.usj.tuopinin.model.CachePlaces;
+import com.example.usj.tuopinin.model.entities.Place;
+import com.example.usj.tuopinin.presenter.MapsPresenter;
+import com.example.usj.tuopinin.view.interfaces.MapsView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -28,9 +34,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OpinionsMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import static com.example.usj.tuopinin.Constants.PLACES_LIST;
+
+public class OpinionsMapsActivity extends FragmentActivity implements OnMapReadyCallback, MapsView {
 
     GoogleMap maps;
     SupportMapFragment mapFrag;
@@ -38,16 +47,25 @@ public class OpinionsMapsActivity extends FragmentActivity implements OnMapReady
     Location mLastLocation;
     Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
+    private MapsPresenter mapsPresenter;
+    private BottomRegisterFragment bottomRegisterFragment;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    private List<Place> placesList;
+    private Bundle savedState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opinions_maps);
-
+        savedState = savedInstanceState;
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        mapsPresenter = new MapsPresenter(this, CachePlaces.getInstance());
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        if (maps != null) {
+            maps.setOnMarkerClickListener(null);
+            maps.setOnMapClickListener(null);
+        }
         mapFrag.getMapAsync(this);
     }
 
@@ -88,7 +106,26 @@ public class OpinionsMapsActivity extends FragmentActivity implements OnMapReady
             mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
             maps.setMyLocationEnabled(true);
         }
+
+        maps.setOnMarkerClickListener(marker -> {
+            mapsPresenter.openDetailsFragment(marker.getPosition().latitude, marker.getPosition().longitude);
+            return true;
+        });
+
+        maps.setOnMapClickListener(point -> {
+            maps.addMarker(new MarkerOptions().position(point));
+            maps.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 16.0f));
+        });
+
+        if (savedState != null) {
+            placesList = (List<Place>) savedState.getSerializable(PLACES_LIST);
+            displayPlaces(placesList);
+        } else {
+            mapsPresenter.displayPlaces();
+        }
+
     }
+
 
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
@@ -120,7 +157,6 @@ public class OpinionsMapsActivity extends FragmentActivity implements OnMapReady
         }
     };
 
-
     private void checkLocationPermission() {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -128,15 +164,9 @@ public class OpinionsMapsActivity extends FragmentActivity implements OnMapReady
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.permission_title))
                     .setMessage(getString(R.string.permission_msg))
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                            ActivityCompat.requestPermissions(OpinionsMapsActivity.this,
-                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                    MY_PERMISSIONS_REQUEST_LOCATION);
-                        }
-                    })
+                    .setPositiveButton("OK", (dialogInterface, i) -> ActivityCompat.requestPermissions(OpinionsMapsActivity.this,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            MY_PERMISSIONS_REQUEST_LOCATION))
                     .create()
                     .show();
 
@@ -162,9 +192,60 @@ public class OpinionsMapsActivity extends FragmentActivity implements OnMapReady
 
                     Toast.makeText(this, getString(R.string.permission_denied), Toast.LENGTH_LONG).show();
                 }
-
-                return;
             }
         }
+    }
+
+    @Override
+    public void displayPlaces(List<Place> places) {
+        placesList = places;
+        for (Place place : places) {
+            LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            String rating = place.getRating() == null ? " " : " rating: " + String.valueOf(place.getRating());
+            markerOptions.title(place.getName() + rating);
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+            Marker marker = maps.addMarker(markerOptions);
+            marker.showInfoWindow();
+        }
+    }
+
+    @Override
+    public void openDetailsFragment(double latitude, double longitude) {
+        BottomCommentFragment bottomCommentFragment =
+                BottomCommentFragment.newInstance(latitude, longitude);
+        bottomCommentFragment.show(getSupportFragmentManager(),
+                "bottomDetailsFragment");
+    }
+
+    @Override
+    public void openRegisterFragment(double latitude, double longitude) {
+        bottomRegisterFragment = BottomRegisterFragment.newInstance(latitude, longitude);
+        bottomRegisterFragment.show(getSupportFragmentManager(),
+                "bottomRegisterFragment");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == Constants.SAVE_PLACE && resultCode == RESULT_OK) {
+            mapsPresenter.displayPlaces();
+        }
+
+        if (requestCode == Constants.ADD_COMMENT && resultCode == RESULT_OK) {
+            mapsPresenter.displayPlaces();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(PLACES_LIST, (Serializable) placesList);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapsPresenter.onDestroy();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.usj.tuopinin.view;
+package com.example.usj.tuopinin.view.interfaces;
 
 public interface LoginView {
 
@@ -11,4 +11,6 @@ public interface LoginView {
     void openAddDetailsActivity(long id);
 
     void showErrorMessage();
+
+    void askForUserCredentials();
 }
