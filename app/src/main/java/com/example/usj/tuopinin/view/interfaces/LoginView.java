@@ -11,4 +11,6 @@ public interface LoginView {
     void openAddDetailsActivity(long id);
 
     void showErrorMessage();
+
+    void askForUserCredentials();
 }

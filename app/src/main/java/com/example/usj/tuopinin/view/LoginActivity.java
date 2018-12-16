@@ -73,6 +73,11 @@ public class LoginActivity extends Activity implements LoginView {
     }
 
     @Override
+    public void askForUserCredentials() {
+        Toast.makeText(LoginActivity.this, "Choose your username and password", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         loginPresenter.onDestroy();

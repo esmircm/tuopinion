@@ -1,5 +1,6 @@
 package com.example.usj.tuopinin.presenter;
 
+import com.example.usj.tuopinin.StringHelper;
 import com.example.usj.tuopinin.model.UserDataProvider;
 import com.example.usj.tuopinin.model.entities.OnRegisterListener;
 import com.example.usj.tuopinin.model.entities.User;
@@ -28,17 +29,22 @@ public class LoginPresenter {
     }
 
     public void registerUser(String username, String password) {
-        dataProvider.registerUserCredentials(username, password, new OnRegisterListener() {
-            @Override
-            public void onSuccess(long id) {
-                loginView.openAddDetailsActivity(id);
-            }
+        if (StringHelper.notNullAndNotEmpty(username) && StringHelper.notNullAndNotEmpty(password)) {
+            dataProvider.registerUserCredentials(username, password, new OnRegisterListener() {
+                @Override
+                public void onSuccess(long id) {
+                    loginView.openAddDetailsActivity(id);
+                }
 
-            @Override
-            public void onError() {
-                loginView.showErrorMessage();
-            }
-        });
+                @Override
+                public void onError() {
+                    loginView.showErrorMessage();
+                }
+            });
+        } else {
+            loginView.askForUserCredentials();
+        }
+
     }
 
     public void onDestroy() {
