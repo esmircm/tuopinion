@@ -3,7 +3,7 @@ package com.example.usj.tuopinin.presenter;
 import com.example.usj.tuopinin.model.UserDataProvider;
 import com.example.usj.tuopinin.model.entities.OnRegisterListener;
 import com.example.usj.tuopinin.model.entities.User;
-import com.example.usj.tuopinin.view.LoginView;
+import com.example.usj.tuopinin.view.interfaces.LoginView;
 
 import java.util.List;
 
@@ -39,6 +39,10 @@ public class LoginPresenter {
                 loginView.showErrorMessage();
             }
         });
+    }
+
+    public void onDestroy() {
+        loginView = null;
     }
 }
 

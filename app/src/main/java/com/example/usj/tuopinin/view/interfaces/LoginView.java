@@ -1,4 +1,4 @@
-package com.example.usj.tuopinin.view;
+package com.example.usj.tuopinin.view.interfaces;
 
 public interface LoginView {
 

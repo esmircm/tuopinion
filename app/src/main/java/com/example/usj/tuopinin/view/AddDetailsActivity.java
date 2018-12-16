@@ -21,6 +21,7 @@ import com.example.usj.tuopinin.R;
 import com.example.usj.tuopinin.TuOpinionApplication;
 import com.example.usj.tuopinin.model.UserData;
 import com.example.usj.tuopinin.presenter.AddDetailsPresenter;
+import com.example.usj.tuopinin.view.interfaces.AddDetailsView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;

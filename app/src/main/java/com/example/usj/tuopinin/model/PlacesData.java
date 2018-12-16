@@ -1,14 +1,11 @@
 package com.example.usj.tuopinin.model;
 
-import android.support.annotation.NonNull;
+import android.net.Uri;
 
 import com.example.usj.tuopinin.model.entities.DaoSession;
 import com.example.usj.tuopinin.model.entities.Place;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -26,22 +23,37 @@ public class PlacesData implements PlacesDataProvider {
     void getFirebaseInstance() {
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("places");
-        savePlacesIntoSql();
+        //savePlacesIntoSql();
     }
 
+ /*   @Override
+    public List<Place> getAllPlaces() {
+        return daoSession.getPlaceDao().loadAll();
+    }*/
 
     @Override
-    public void savePlace(Place place, OnFinishedInterfaceListener onFinishedInterfaceListener) {
+    public List<Place> getAllPlaces() {
+        return null;
+    }
+
+    @Override
+    public void savePlace(String locationName, String description, Uri photoURI, double latitude, double longitude, OnFinishedInterfaceListener onFinishedInterfaceListener) {
+        Place place = new Place();
+        place.setName(locationName);
+        place.setDescription(description);
+        place.setImage(String.valueOf(photoURI));
+        place.setLatitude(latitude);
+        place.setLongitude(longitude);
         databaseReference.push().setValue(place);
         onFinishedInterfaceListener.onSuccess();
     }
 
     @Override
-    public List<Place> getAllPlaces() {
-        return daoSession.getPlaceDao().loadAll();
+    public void saveComment(String text, float rating, Uri photoURI, double latitude, double longitude) {
+
     }
 
-    private void savePlacesIntoSql() {
+/*    private void savePlacesIntoSql() {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -57,5 +69,5 @@ public class PlacesData implements PlacesDataProvider {
 
             }
         });
-    }
+    }*/
 }
