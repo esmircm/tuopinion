@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.example.usj.tuopinin.Constants;
 import com.example.usj.tuopinin.NavigationHelper;
 import com.example.usj.tuopinin.R;
-import com.example.usj.tuopinin.TuOpinionApplication;
 import com.example.usj.tuopinin.model.UserData;
 import com.example.usj.tuopinin.presenter.AddDetailsPresenter;
 import com.example.usj.tuopinin.view.interfaces.AddDetailsView;
@@ -76,7 +75,7 @@ public class AddDetailsActivity extends AppCompatActivity implements AddDetailsV
 
     @AfterViews
     void setupPresenter() {
-        addDetailsPresenter = new AddDetailsPresenter(this, new UserData(((TuOpinionApplication) getApplication()).getDaoSession()));
+        addDetailsPresenter = new AddDetailsPresenter(this, new UserData());
     }
 
     @Override
@@ -87,7 +86,7 @@ public class AddDetailsActivity extends AppCompatActivity implements AddDetailsV
         String phoneNumber = phoneNumberEditText.getText().toString();
         String age = ageEditText.getText().toString();
         String gender = getSelectedGender();
-        addDetailsPresenter.saveUser(name, surname, phoneNumber, age, gender, id, photoURI);
+        addDetailsPresenter.saveUser(name, surname, phoneNumber, age, gender, photoURI);
     }
 
     public String getSelectedGender() {

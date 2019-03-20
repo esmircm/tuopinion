@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.usj.tuopinin.R;
-import com.example.usj.tuopinin.TuOpinionApplication;
 import com.example.usj.tuopinin.model.UserData;
 import com.example.usj.tuopinin.presenter.LoginPresenter;
 import com.example.usj.tuopinin.view.interfaces.LoginView;
@@ -33,7 +32,7 @@ public class LoginActivity extends Activity implements LoginView {
 
     @AfterViews
     void setupPresenter() {
-        loginPresenter = new LoginPresenter(this, new UserData(((TuOpinionApplication) getApplication()).getDaoSession()));
+        loginPresenter = new LoginPresenter(this, new UserData());
     }
 
     @Override

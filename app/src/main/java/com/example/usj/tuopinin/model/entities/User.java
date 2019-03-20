@@ -1,60 +1,25 @@
 package com.example.usj.tuopinin.model.entities;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Property;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-@Entity(nameInDb = "user")
-public class User {
-
-    @Id(autoincrement = true)
-    private Long id;
-    @Property(nameInDb = "username")
+public class User extends RealmObject {
+    @PrimaryKey
+    private long id;
     private String username;
-    @Property(nameInDb = "password")
     private String password;
-    @Property(nameInDb = "name")
     private String name;
-    @Property(nameInDb = "surname")
     private String surname;
-    @Property(nameInDb = "gender")
     private String gender;
-    @Property(nameInDb = "age")
     private String age;
-    @Property(nameInDb = "phoneNumber")
     private String phoneNumber;
-    @Property(nameInDb = "imageUri")
     private String imageUri;
 
-
-
-    @Generated(hash = 586692638)
-    public User() {
-    }
-
-
-    @Generated(hash = 1583679463)
-    public User(Long id, String username, String password, String name,
-            String surname, String gender, String age, String phoneNumber,
-            String imageUri) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.gender = gender;
-        this.age = age;
-        this.phoneNumber = phoneNumber;
-        this.imageUri = imageUri;
-    }
-    
-
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

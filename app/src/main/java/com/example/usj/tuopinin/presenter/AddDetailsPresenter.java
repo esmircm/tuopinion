@@ -5,6 +5,7 @@ import android.net.Uri;
 import com.example.usj.tuopinin.StringHelper;
 import com.example.usj.tuopinin.model.OnFinishedInterfaceListener;
 import com.example.usj.tuopinin.model.UserDataProvider;
+import com.example.usj.tuopinin.model.entities.User;
 import com.example.usj.tuopinin.view.interfaces.AddDetailsView;
 
 public class AddDetailsPresenter {
@@ -17,9 +18,16 @@ public class AddDetailsPresenter {
         this.dataProvider = dataProvider;
     }
 
-    public void saveUser(String name, String surname, String phoneNumber, String age, String gender, long id, Uri photoURI) {
+    public void saveUser(String name, String surname, String phoneNumber, String age, String gender, Uri photoURI) {
         if (checkIfValuesAreEmpty(name, surname, phoneNumber, age, gender)) {
-            dataProvider.saveUserDetails(name, surname, phoneNumber, age, gender, id, photoURI, new OnFinishedInterfaceListener() {
+            User user = new User();
+            user.setName(name);
+            user.setSurname(surname);
+            user.setPhoneNumber(phoneNumber);
+            user.setAge(age);
+            user.setGender(gender);
+            user.setImageUri(photoURI.toString());
+            dataProvider.saveUserDetails(user, new OnFinishedInterfaceListener() {
                 @Override
                 public void onSuccess() {
                     addDetailsView.openMapsActivity();

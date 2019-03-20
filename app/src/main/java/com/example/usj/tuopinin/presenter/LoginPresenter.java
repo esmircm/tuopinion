@@ -6,13 +6,11 @@ import com.example.usj.tuopinin.model.entities.OnRegisterListener;
 import com.example.usj.tuopinin.model.entities.User;
 import com.example.usj.tuopinin.view.interfaces.LoginView;
 
-import java.util.List;
-
 public class LoginPresenter {
 
     private LoginView loginView;
     private UserDataProvider dataProvider;
-    private List<User> users;
+    private User user;
 
     public LoginPresenter(LoginView loginView, UserDataProvider userDataProviderInterface) {
         this.loginView = loginView;
@@ -20,9 +18,9 @@ public class LoginPresenter {
     }
 
     public void loginUser(String username, String password) {
-        users = dataProvider.getUserWithSpecificUsernameAndPassword(username, password);
-        if (users != null && users.size() > 0) {
-            loginView.openMapsActivity(users.get(0).getId());
+        user = dataProvider.getUserWithSpecificUsernameAndPassword(username, password);
+        if (user != null) {
+            loginView.openMapsActivity(user.getId());
         } else {
             loginView.showErrorMessage();
         }

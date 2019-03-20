@@ -2,7 +2,6 @@ package com.example.usj.tuopinin.model;
 
 import android.net.Uri;
 
-import com.example.usj.tuopinin.model.entities.DaoSession;
 import com.example.usj.tuopinin.model.entities.Place;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -13,11 +12,10 @@ public class PlacesData implements PlacesDataProvider {
 
     FirebaseDatabase database;
     DatabaseReference databaseReference;
-    private DaoSession daoSession;
 
-    public PlacesData(DaoSession daoSession) {
+    public PlacesData() {
         getFirebaseInstance();
-        this.daoSession = daoSession;
+
     }
 
     void getFirebaseInstance() {

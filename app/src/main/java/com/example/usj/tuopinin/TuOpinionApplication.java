@@ -2,23 +2,16 @@ package com.example.usj.tuopinin;
 
 import android.app.Application;
 
-import com.example.usj.tuopinin.model.DbOpenHelper;
-import com.example.usj.tuopinin.model.entities.DaoMaster;
-import com.example.usj.tuopinin.model.entities.DaoSession;
+import com.facebook.stetho.Stetho;
+
+import io.realm.Realm;
 
 public class TuOpinionApplication extends Application {
-
-    private DaoSession mDaoSession;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mDaoSession = new DaoMaster(
-                new  DbOpenHelper(this, "tuopinion.db").getWritableDb()).newSession();
-
-    }
-
-    public DaoSession getDaoSession() {
-        return mDaoSession;
+        Realm.init(this);
+        Stetho.initializeWithDefaults(this);
     }
 }
