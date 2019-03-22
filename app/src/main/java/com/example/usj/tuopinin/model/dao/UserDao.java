@@ -13,7 +13,7 @@ public class UserDao {
     private Realm realm;
 
     public UserDao() {
-        this.realm = Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
     }
 
     public void insertUserDetails(User userToInsert, OnFinishedInterfaceListener onFinishedInterfaceListener) {

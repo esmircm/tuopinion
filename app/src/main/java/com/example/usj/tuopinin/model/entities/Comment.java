@@ -1,8 +1,9 @@
 package com.example.usj.tuopinin.model.entities;
 
+import io.realm.RealmObject;
 import java.io.Serializable;
 
-public class Comment implements Serializable {
+public class Comment extends RealmObject implements Serializable {
     String comment;
     float rating;
 

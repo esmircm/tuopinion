@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.example.usj.tuopinin.Constants;
 import com.example.usj.tuopinin.R;
 import com.example.usj.tuopinin.model.CachePlaces;
+import com.example.usj.tuopinin.model.PlacesData;
+import com.example.usj.tuopinin.model.PlacesDataProvider;
 import com.example.usj.tuopinin.presenter.RegisterLocationPresenter;
 import com.example.usj.tuopinin.view.interfaces.RegisterView;
 
@@ -55,6 +57,7 @@ public class RegisterFragment extends Fragment implements RegisterView {
     @ViewById
     ImageView photoImageView;
 
+    PlacesDataProvider placesDataProvider = new PlacesData();
     private double longitude;
     private double latitude;
 
@@ -70,7 +73,7 @@ public class RegisterFragment extends Fragment implements RegisterView {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        registerLocationPresenter = new RegisterLocationPresenter(this, CachePlaces.getInstance());
+        registerLocationPresenter = new RegisterLocationPresenter(this, placesDataProvider);
         longitude = getArguments().getDouble(LONGITUDE);
         latitude = getArguments().getDouble(LATITUDE);
         return super.onCreateView(inflater, container, savedInstanceState);

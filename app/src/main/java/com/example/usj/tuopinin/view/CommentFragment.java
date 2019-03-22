@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.example.usj.tuopinin.Constants;
 import com.example.usj.tuopinin.R;
 import com.example.usj.tuopinin.model.CachePlaces;
+import com.example.usj.tuopinin.model.PlacesData;
+import com.example.usj.tuopinin.model.PlacesDataProvider;
 import com.example.usj.tuopinin.presenter.EnterCommentPresenter;
 import com.example.usj.tuopinin.view.interfaces.CommentView;
 
@@ -56,6 +58,8 @@ public class CommentFragment extends Fragment implements CommentView {
     @ViewById
     ImageView photoImageView;
 
+    PlacesDataProvider placeDataProvider = new PlacesData();
+
     private double latitude;
 
     private double longitude;
@@ -74,7 +78,7 @@ public class CommentFragment extends Fragment implements CommentView {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         longitude = getArguments().getDouble(LONGITUDE);
         latitude = getArguments().getDouble(LATITUDE);
-        enterCommentPresenter = new EnterCommentPresenter(this, CachePlaces.getInstance());
+        enterCommentPresenter = new EnterCommentPresenter(this, placeDataProvider);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

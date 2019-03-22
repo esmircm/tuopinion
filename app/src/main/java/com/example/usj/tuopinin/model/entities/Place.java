@@ -1,90 +1,92 @@
 package com.example.usj.tuopinin.model.entities;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import java.io.Serializable;
-import java.util.List;
 
-public class Place implements Serializable {
+public class Place extends RealmObject implements Serializable {
 
-    private Long id;
-    private String name;
+    private RealmList<Comment> comments;
     private String description;
+    @PrimaryKey
+    private int id;
+    private String image;
+    private RealmList<String> images;
     private double latitude;
     private double longitude;
-    private String image;
-    private List<String> images;
-    private List<Comment> comments;
-
+    private String name;
     private Float rating;
 
-    public Long getId() {
-        return this.id;
+    public RealmList<Comment> getComments() {
+        return comments;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setComments(final RealmList<Comment> comments) {
+        this.comments = comments;
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
-    public double getLatitude() {
-        return this.latitude;
+    public int getId() {
+        return id;
     }
 
-    public void setLatitude(double latitude) {
+    public void setId(final int id) {
+        this.id = id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(final String image) {
+        this.image = image;
+    }
+
+    public RealmList<String> getImages() {
+        return images;
+    }
+
+    public void setImages(final RealmList<String> images) {
+        this.images = images;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(final double latitude) {
         this.latitude = latitude;
     }
 
     public double getLongitude() {
-        return this.longitude;
+        return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(final double longitude) {
         this.longitude = longitude;
     }
 
-    public String getImage() {
-        return this.image;
+    public String getName() {
+        return name;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public Float getRating() {
-        return this.rating;
+        return rating;
     }
 
-    public void setRating(Float rating) {
+    public void setRating(final Float rating) {
         this.rating = rating;
-    }
-
-    public List<String> getImages() {
-        return images;
-    }
-
-    public void setImages(List<String> images) {
-        this.images = images;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
     }
 }

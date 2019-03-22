@@ -50,7 +50,7 @@ public class CachePlaces implements PlacesDataProvider {
 
     @Override
     public void saveComment(String text, float rating, Uri photoURI, double latitude, double longitude) {
-        for (Place place : places) {
+/*        for (Place place : places) {
             if (Utils.compareDouble(place.getLatitude(), latitude) && Utils.compareDouble(place.getLongitude(), longitude)) {
                 Comment comment = new Comment();
                 comment.setComment(text);
@@ -79,6 +79,6 @@ public class CachePlaces implements PlacesDataProvider {
                 place.setImages(images);
                 place.setComments(comments);
             }
-        }
+        }*/
     }
 }

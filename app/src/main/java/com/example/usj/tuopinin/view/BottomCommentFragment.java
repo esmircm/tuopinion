@@ -17,6 +17,7 @@ import android.widget.Button;
 
 import com.example.usj.tuopinin.R;
 import com.example.usj.tuopinin.model.CachePlaces;
+import com.example.usj.tuopinin.model.PlacesDataProvider;
 import com.example.usj.tuopinin.model.entities.Comment;
 import com.example.usj.tuopinin.presenter.BottomPlaceDetailsPresenter;
 import com.example.usj.tuopinin.view.interfaces.BottomCommentView;
@@ -39,6 +40,7 @@ public class BottomCommentFragment extends BottomSheetDialogFragment implements 
     private double latitude;
     private double longitude;
     private NestedScrollView nestedScrollView;
+    private PlacesDataProvider placesDataProvider;
 
     public static BottomCommentFragment newInstance(double latitude, double longitude) {
         BottomCommentFragment bottomCommentFragment = new BottomCommentFragment();
@@ -59,7 +61,7 @@ public class BottomCommentFragment extends BottomSheetDialogFragment implements 
                 false);
         longitude = getArguments().getDouble(LONGITUDE);
         latitude = getArguments().getDouble(LATITUDE);
-        placeDetailsPresenter = new BottomPlaceDetailsPresenter(this, CachePlaces.getInstance());
+        placeDetailsPresenter = new BottomPlaceDetailsPresenter(this, placesDataProvider);
         commentButton = view.findViewById(R.id.commentButton);
         photosCarouselView = view.findViewById(R.id.cvPlacePhotos);
         commentsRecyclerView = view.findViewById(R.id.commentsRecyclerView);
