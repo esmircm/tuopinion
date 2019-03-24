@@ -3,8 +3,10 @@ package com.example.usj.tuopinin.model.dao;
 import android.util.Log;
 
 import com.example.usj.tuopinin.model.OnFinishedInterfaceListener;
+import com.example.usj.tuopinin.model.data_model.User;
 import com.example.usj.tuopinin.model.entities.OnRegisterListener;
-import com.example.usj.tuopinin.model.entities.User;
+import com.example.usj.tuopinin.model.entities.RealmUser;
+import com.example.usj.tuopinin.model.mappers.UserMapper;
 
 import io.realm.Realm;
 
@@ -16,10 +18,10 @@ public class UserDao {
         realm = Realm.getDefaultInstance();
     }
 
-    public void insertUserDetails(User userToInsert, OnFinishedInterfaceListener onFinishedInterfaceListener) {
+    public void insertUserDetails(RealmUser userToInsert, OnFinishedInterfaceListener onFinishedInterfaceListener) {
 
         realm.executeTransactionAsync(realm -> {
-                    User user = realm.where(User.class).equalTo("username", userToInsert.getUsername()).findFirst();
+                    RealmUser user = realm.where(RealmUser.class).equalTo("username", userToInsert.getUsername()).findFirst();
                     if (user != null) {
                         user.setName(userToInsert.getName());
                         user.setSurname(userToInsert.getSurname());
@@ -32,7 +34,7 @@ public class UserDao {
                         user.setSurname(userToInsert.getGender());
                     }
                 }, () -> {
-                    Log.d("Realm", "User details successfully added");
+                    Log.d("Realm", "RealmUser details successfully added");
                     onFinishedInterfaceListener.onSuccess();
                 },
                 error -> {
@@ -43,20 +45,20 @@ public class UserDao {
 
     public void registerUserCredentials(String username, String password, OnRegisterListener onRegisterListener) {
 
-        User user = getUserWithSpecificUsernameAndPassword(username, password);
-        if (user == null) {
+        RealmUser user = UserMapper.mapToRealmUser(getUserWithSpecificUsernameAndPassword(username, password));
+        if (user.getId() == 0) {
             long id = System.currentTimeMillis();
             realm.executeTransactionAsync(realm -> {
-                User newUser = new User();
+                RealmUser newUser = new RealmUser();
                 newUser.setId(id);
                 newUser.setUsername(username);
                 newUser.setPassword(password);
                 realm.insert(newUser);
             }, () -> {
-                Log.d("Realm", "User successfully registered");
+                Log.d("Realm", "RealmUser successfully registered");
                 onRegisterListener.onSuccess(id);
             }, error -> {
-                Log.d("Realm", "User not registered");
+                Log.d("Realm", "RealmUser not registered");
                 onRegisterListener.onError();
             });
         } else {
@@ -65,6 +67,6 @@ public class UserDao {
     }
 
     public User getUserWithSpecificUsernameAndPassword(String username, String password) {
-        return realm.where(User.class).equalTo("username", username).equalTo("password", password).findFirst();
+       return UserMapper.mapToUser(realm.where(RealmUser.class).equalTo("username", username).equalTo("password", password).findFirst());
     }
 }

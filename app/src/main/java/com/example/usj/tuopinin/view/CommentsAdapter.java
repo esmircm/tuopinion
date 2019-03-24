@@ -9,7 +9,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.usj.tuopinin.R;
-import com.example.usj.tuopinin.model.entities.Comment;
+import com.example.usj.tuopinin.model.data_model.Comment;
 
 import java.util.List;
 

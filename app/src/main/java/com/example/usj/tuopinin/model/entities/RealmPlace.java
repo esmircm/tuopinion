@@ -3,26 +3,46 @@ package com.example.usj.tuopinin.model.entities;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import java.io.Serializable;
 
-public class Place extends RealmObject implements Serializable {
 
-    private RealmList<Comment> comments;
-    private String description;
+public class RealmPlace extends RealmObject {
+
     @PrimaryKey
-    private int id;
+    private long id;
+    private RealmList<RealmComment> comments;
+    private String description;
     private String image;
     private RealmList<String> images;
     private double latitude;
     private double longitude;
     private String name;
     private Float rating;
+    private String firebaseId;
 
-    public RealmList<Comment> getComments() {
+    public RealmPlace() {
+    }
+
+    public String getFirebaseId() {
+        return firebaseId;
+    }
+
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public RealmList<RealmComment> getComments() {
         return comments;
     }
 
-    public void setComments(final RealmList<Comment> comments) {
+    public void setComments(final RealmList<RealmComment> comments) {
         this.comments = comments;
     }
 
@@ -32,14 +52,6 @@ public class Place extends RealmObject implements Serializable {
 
     public void setDescription(final String description) {
         this.description = description;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(final int id) {
-        this.id = id;
     }
 
     public String getImage() {

@@ -1,7 +1,6 @@
 package com.example.usj.tuopinin.view;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -16,9 +15,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.usj.tuopinin.R;
-import com.example.usj.tuopinin.model.CachePlaces;
+import com.example.usj.tuopinin.Utils;
+import com.example.usj.tuopinin.model.PlacesData;
 import com.example.usj.tuopinin.model.PlacesDataProvider;
-import com.example.usj.tuopinin.model.entities.Comment;
+import com.example.usj.tuopinin.model.data_model.Comment;
 import com.example.usj.tuopinin.presenter.BottomPlaceDetailsPresenter;
 import com.example.usj.tuopinin.view.interfaces.BottomCommentView;
 import com.synnapps.carouselview.CarouselView;
@@ -30,6 +30,7 @@ import static com.example.usj.tuopinin.Constants.ENTER_COMMENT;
 import static com.example.usj.tuopinin.Constants.FRAGMENT_NAME;
 import static com.example.usj.tuopinin.Constants.LATITUDE;
 import static com.example.usj.tuopinin.Constants.LONGITUDE;
+import static com.example.usj.tuopinin.Constants.PLACE_ID;
 
 public class BottomCommentFragment extends BottomSheetDialogFragment implements BottomCommentView {
 
@@ -41,12 +42,14 @@ public class BottomCommentFragment extends BottomSheetDialogFragment implements 
     private double longitude;
     private NestedScrollView nestedScrollView;
     private PlacesDataProvider placesDataProvider;
+    private long placeId;
 
-    public static BottomCommentFragment newInstance(double latitude, double longitude) {
+    public static BottomCommentFragment newInstance(double latitude, double longitude, long placeId) {
         BottomCommentFragment bottomCommentFragment = new BottomCommentFragment();
         Bundle bundle = new Bundle();
         bundle.putDouble(LATITUDE, latitude);
         bundle.putDouble(LONGITUDE, longitude);
+        bundle.putLong(PLACE_ID, placeId);
         bottomCommentFragment.setArguments(bundle);
         return bottomCommentFragment;
     }
@@ -61,17 +64,18 @@ public class BottomCommentFragment extends BottomSheetDialogFragment implements 
                 false);
         longitude = getArguments().getDouble(LONGITUDE);
         latitude = getArguments().getDouble(LATITUDE);
+        placeId = getArguments().getLong(PLACE_ID);
+        placesDataProvider = PlacesData.getInstance();
         placeDetailsPresenter = new BottomPlaceDetailsPresenter(this, placesDataProvider);
         commentButton = view.findViewById(R.id.commentButton);
         photosCarouselView = view.findViewById(R.id.cvPlacePhotos);
         commentsRecyclerView = view.findViewById(R.id.commentsRecyclerView);
         nestedScrollView = view.findViewById(R.id.nestedScrollView);
-        placeDetailsPresenter.displayComments(latitude, longitude);
-        placeDetailsPresenter.displayImages(latitude, longitude);
+        placeDetailsPresenter.displayComments(placeId);
+        placeDetailsPresenter.displayImages(placeId);
         commentButton.setOnClickListener(v -> onAddCommentAndPhotoButtonClick());
         return view;
     }
-
 
     @Override
     public void onAddCommentAndPhotoButtonClick() {
@@ -82,7 +86,8 @@ public class BottomCommentFragment extends BottomSheetDialogFragment implements 
     public void displayImages(List<String> images) {
         photosCarouselView.setVisibility(View.VISIBLE);
         photosCarouselView.setPageCount(images.size());
-        photosCarouselView.setImageListener((position, imageView) -> imageView.setImageURI(Uri.parse(images.get(position))));
+        photosCarouselView.setImageListener((position, imageView) -> imageView.setImageBitmap(Utils.convert(images.get(position))));
+
     }
 
     @Override
@@ -114,6 +119,7 @@ public class BottomCommentFragment extends BottomSheetDialogFragment implements 
         Intent intent = new Intent(getActivity(), AddLocationDetailsActivity_.class);
         intent.putExtra(LATITUDE, latitude);
         intent.putExtra(LONGITUDE, longitude);
+        intent.putExtra(PLACE_ID, placeId);
         intent.putExtra(FRAGMENT_NAME, ENTER_COMMENT);
         getActivity().startActivityForResult(intent, ADD_COMMENT);
         dismiss();

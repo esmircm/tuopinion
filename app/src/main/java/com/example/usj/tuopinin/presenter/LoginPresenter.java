@@ -2,8 +2,8 @@ package com.example.usj.tuopinin.presenter;
 
 import com.example.usj.tuopinin.StringHelper;
 import com.example.usj.tuopinin.model.UserDataProvider;
+import com.example.usj.tuopinin.model.data_model.User;
 import com.example.usj.tuopinin.model.entities.OnRegisterListener;
-import com.example.usj.tuopinin.model.entities.User;
 import com.example.usj.tuopinin.view.interfaces.LoginView;
 
 public class LoginPresenter {
@@ -19,7 +19,7 @@ public class LoginPresenter {
 
     public void loginUser(String username, String password) {
         user = dataProvider.getUserWithSpecificUsernameAndPassword(username, password);
-        if (user != null) {
+        if (user.getId() != 0) {
             loginView.openMapsActivity(user.getId());
         } else {
             loginView.showErrorMessage();

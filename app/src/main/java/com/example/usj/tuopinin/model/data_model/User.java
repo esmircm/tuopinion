@@ -1,10 +1,9 @@
-package com.example.usj.tuopinin.model.entities;
+package com.example.usj.tuopinin.model.data_model;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 public class User extends RealmObject {
-    @PrimaryKey
+
     private long id;
     private String username;
     private String password;

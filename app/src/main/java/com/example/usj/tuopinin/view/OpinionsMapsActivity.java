@@ -1,7 +1,5 @@
 package com.example.usj.tuopinin.view;
 
-import static com.example.usj.tuopinin.Constants.PLACES_LIST;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -15,11 +13,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
+
 import com.example.usj.tuopinin.Constants;
 import com.example.usj.tuopinin.R;
 import com.example.usj.tuopinin.model.PlacesData;
 import com.example.usj.tuopinin.model.PlacesDataProvider;
-import com.example.usj.tuopinin.model.entities.Place;
+import com.example.usj.tuopinin.model.data_model.Place;
 import com.example.usj.tuopinin.presenter.MapsPresenter;
 import com.example.usj.tuopinin.view.interfaces.MapsView;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -35,8 +34,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.io.Serializable;
 import java.util.List;
+
+import static com.example.usj.tuopinin.Constants.PLACES_LIST;
 
 public class OpinionsMapsActivity extends FragmentActivity implements OnMapReadyCallback, MapsView {
 
@@ -78,7 +80,7 @@ public class OpinionsMapsActivity extends FragmentActivity implements OnMapReady
     };
     private BottomRegisterFragment bottomRegisterFragment;
     private MapsPresenter mapsPresenter;
-    private PlacesDataProvider placeDataProvider = new PlacesData();
+    private PlacesDataProvider placeDataProvider = PlacesData.getInstance();
     private List<Place> placesList;
     private Bundle savedState;
 
@@ -217,9 +219,9 @@ public class OpinionsMapsActivity extends FragmentActivity implements OnMapReady
     }
 
     @Override
-    public void openDetailsFragment(double latitude, double longitude) {
+    public void openDetailsFragment(double latitude, double longitude, long placeId) {
         BottomCommentFragment bottomCommentFragment =
-                BottomCommentFragment.newInstance(latitude, longitude);
+                BottomCommentFragment.newInstance(latitude, longitude, placeId);
         bottomCommentFragment.show(getSupportFragmentManager(),
                 "bottomDetailsFragment");
     }

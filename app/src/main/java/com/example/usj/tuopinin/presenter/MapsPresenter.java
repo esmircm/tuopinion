@@ -1,7 +1,7 @@
 package com.example.usj.tuopinin.presenter;
 
 import com.example.usj.tuopinin.model.PlacesDataProvider;
-import com.example.usj.tuopinin.model.entities.Place;
+import com.example.usj.tuopinin.model.data_model.Place;
 import com.example.usj.tuopinin.view.interfaces.MapsView;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class MapsPresenter {
 
             for (Place place : places) {
                 if (place.getLongitude() == longitude && place.getLatitude() == latitude) {
-                    mapsView.openDetailsFragment(latitude, longitude);
+                    mapsView.openDetailsFragment(longitude, latitude, place.getId());
                     openDetailsFragment = true;
                 }
             }

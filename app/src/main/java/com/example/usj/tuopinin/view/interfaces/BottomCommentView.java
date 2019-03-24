@@ -1,6 +1,6 @@
 package com.example.usj.tuopinin.view.interfaces;
 
-import com.example.usj.tuopinin.model.entities.Comment;
+import com.example.usj.tuopinin.model.data_model.Comment;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import android.net.Uri;
 import com.example.usj.tuopinin.StringHelper;
 import com.example.usj.tuopinin.model.OnFinishedInterfaceListener;
 import com.example.usj.tuopinin.model.UserDataProvider;
-import com.example.usj.tuopinin.model.entities.User;
+import com.example.usj.tuopinin.model.entities.RealmUser;
 import com.example.usj.tuopinin.view.interfaces.AddDetailsView;
 
 public class AddDetailsPresenter {
@@ -20,7 +20,7 @@ public class AddDetailsPresenter {
 
     public void saveUser(String name, String surname, String phoneNumber, String age, String gender, Uri photoURI) {
         if (checkIfValuesAreEmpty(name, surname, phoneNumber, age, gender)) {
-            User user = new User();
+            RealmUser user = new RealmUser();
             user.setName(name);
             user.setSurname(surname);
             user.setPhoneNumber(phoneNumber);

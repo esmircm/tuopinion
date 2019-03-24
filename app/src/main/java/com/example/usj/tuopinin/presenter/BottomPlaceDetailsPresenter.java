@@ -1,9 +1,8 @@
 package com.example.usj.tuopinin.presenter;
 
-import com.example.usj.tuopinin.Utils;
 import com.example.usj.tuopinin.model.PlacesDataProvider;
-import com.example.usj.tuopinin.model.entities.Comment;
-import com.example.usj.tuopinin.model.entities.Place;
+import com.example.usj.tuopinin.model.data_model.Comment;
+import com.example.usj.tuopinin.model.data_model.Place;
 import com.example.usj.tuopinin.view.interfaces.BottomCommentView;
 
 import java.util.ArrayList;
@@ -20,16 +19,16 @@ public class BottomPlaceDetailsPresenter {
 
     }
 
-    public void displayImages(double latitude, double longitude) {
-        List<Place> places = placesDataProvider.getAllPlaces();
+    public void displayImages(long placeId) {
+        Place place = placesDataProvider.getPlaceById(placeId);
+        List<Comment> comments = place.getComments();
         List<String> images = new ArrayList<>();
-        for (Place place : places) {
-            if (Utils.compareDouble(place.getLatitude(), latitude) && Utils.compareDouble(place.getLongitude(), longitude)) {
-                images = place.getImages();
-            }
+
+        for (Comment comment: comments) {
+            images.add(comment.getPhotoUri());
         }
 
-        if (images != null && images.size() > 0) {
+        if (images.size() > 0 && !images.contains(null)) {
             view.displayImages(images);
         } else {
             view.hideImages();
@@ -37,15 +36,9 @@ public class BottomPlaceDetailsPresenter {
 
     }
 
-    public void displayComments(double latitude, double longitude) {
-        List<Place> places = placesDataProvider.getAllPlaces();
-        List<Comment> comments = new ArrayList<>();
-
-        for (Place place : places) {
-            if (Utils.compareDouble(place.getLatitude(), latitude) && Utils.compareDouble(place.getLongitude(), longitude)) {
-                comments = place.getComments();
-            }
-        }
+    public void displayComments(long placeId) {
+        Place place = placesDataProvider.getPlaceById(placeId);
+        List<Comment> comments = place.getComments();
 
         if (comments != null && comments.size() > 0) {
             view.displayComments(comments);

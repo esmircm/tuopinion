@@ -15,6 +15,7 @@ import static com.example.usj.tuopinin.Constants.ENTER_COMMENT;
 import static com.example.usj.tuopinin.Constants.FRAGMENT_NAME;
 import static com.example.usj.tuopinin.Constants.LATITUDE;
 import static com.example.usj.tuopinin.Constants.LONGITUDE;
+import static com.example.usj.tuopinin.Constants.PLACE_ID;
 import static com.example.usj.tuopinin.Constants.REGISTER_LOCATION;
 
 @SuppressLint("Registered")
@@ -30,6 +31,9 @@ public class AddLocationDetailsActivity extends AppCompatActivity {
     @Extra(LATITUDE)
     double latitude;
 
+    @Extra(PLACE_ID)
+    long placeId;
+
     private FragmentManager fragmentManager;
 
     @AfterExtras
@@ -44,7 +48,7 @@ public class AddLocationDetailsActivity extends AppCompatActivity {
                     RegisterFragment.newInstance(latitude, longitude);
             fragmentManager.beginTransaction().add(R.id.content_layout, registerFragment).commit();
         } else if (fragmentName.equals(ENTER_COMMENT)) {
-            CommentFragment commentFragment = CommentFragment.newInstance(latitude, longitude);
+            CommentFragment commentFragment = CommentFragment.newInstance(placeId);
             fragmentManager.beginTransaction().add(R.id.content_layout, commentFragment).commit();
         }
     }

@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.example.usj.tuopinin.Constants;
 import com.example.usj.tuopinin.R;
-import com.example.usj.tuopinin.model.CachePlaces;
+import com.example.usj.tuopinin.Utils;
 import com.example.usj.tuopinin.model.PlacesData;
 import com.example.usj.tuopinin.model.PlacesDataProvider;
 import com.example.usj.tuopinin.presenter.EnterCommentPresenter;
@@ -38,9 +38,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
-import static com.example.usj.tuopinin.Constants.LATITUDE;
-import static com.example.usj.tuopinin.Constants.LONGITUDE;
 import static com.example.usj.tuopinin.Constants.PICK_IMAGE;
+import static com.example.usj.tuopinin.Constants.PLACE_ID;
 import static com.example.usj.tuopinin.Constants.REQUEST_TAKE_PHOTO;
 
 @EFragment(R.layout.fragment_comment)
@@ -58,17 +57,16 @@ public class CommentFragment extends Fragment implements CommentView {
     @ViewById
     ImageView photoImageView;
 
-    PlacesDataProvider placeDataProvider = new PlacesData();
+    String imageFile;
+    Bitmap mBitmap;
 
-    private double latitude;
+    PlacesDataProvider placeDataProvider = PlacesData.getInstance();
+    private long placeId;
 
-    private double longitude;
-
-    public static CommentFragment newInstance(double latitude, double longitude) {
+    public static CommentFragment newInstance(long placeId) {
         CommentFragment commentFragment = new CommentFragment_();
         Bundle bundle = new Bundle();
-        bundle.putDouble(LATITUDE, latitude);
-        bundle.putDouble(LONGITUDE, longitude);
+        bundle.putLong(PLACE_ID, placeId);
         commentFragment.setArguments(bundle);
         return commentFragment;
     }
@@ -76,8 +74,7 @@ public class CommentFragment extends Fragment implements CommentView {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        longitude = getArguments().getDouble(LONGITUDE);
-        latitude = getArguments().getDouble(LATITUDE);
+        placeId = getArguments().getLong(PLACE_ID);
         enterCommentPresenter = new EnterCommentPresenter(this, placeDataProvider);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -85,7 +82,7 @@ public class CommentFragment extends Fragment implements CommentView {
     @Click(R.id.saveButton)
     @Override
     public void onSaveButtonClicked() {
-        enterCommentPresenter.saveComment(commentEditText.getText().toString(), ratingBar.getRating(), photoURI, latitude, longitude);
+        enterCommentPresenter.saveComment(placeId, commentEditText.getText().toString(), ratingBar.getRating(), imageFile);
     }
 
     @OnActivityResult(Constants.REQUEST_TAKE_PHOTO)
@@ -97,18 +94,21 @@ public class CommentFragment extends Fragment implements CommentView {
 
     @OnActivityResult(Constants.PICK_IMAGE)
     void getPhotoDataFromGallery(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (data != null) {
-                photoURI = data.getData();
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoURI);
-                    photoImageView.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if (resultCode == RESULT_OK) {
+                if (data != null) {
+                    photoURI = data.getData();
+                    try {
+                        mBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoURI);
+                        Bitmap resizedBitmap = Utils.getResizedBitmap(mBitmap, 100, 100);
+                        photoImageView.setImageBitmap(resizedBitmap);
+                        imageFile = Utils.encodeToBase64(resizedBitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
-    }
+
 
     @Override
     @Click(R.id.galleryImageButton)
@@ -130,7 +130,7 @@ public class CommentFragment extends Fragment implements CommentView {
 
     @Override
     public void showErrorMessage() {
-        Toast.makeText(getActivity(), "Comment can not be empty!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "RealmComment can not be empty!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -1,11 +1,12 @@
+/*
 package com.example.usj.tuopinin.model;
 
 import android.net.Uri;
 
 import com.example.usj.tuopinin.StringHelper;
 import com.example.usj.tuopinin.Utils;
-import com.example.usj.tuopinin.model.entities.Comment;
-import com.example.usj.tuopinin.model.entities.Place;
+import com.example.usj.tuopinin.model.entities.RealmComment;
+import com.example.usj.tuopinin.model.entities.RealmPlace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +14,9 @@ import java.util.List;
 // This is just an example implementation of PlaceDataProvider. It should be changed with Firebase or SqlLite..
 
 public class CachePlaces implements PlacesDataProvider {
-    private ArrayList<Place> places;
+    private ArrayList<RealmPlace> places;
     private ArrayList<String> images;
-    private ArrayList<Comment> comments;
+    private ArrayList<RealmComment> comments;
     private static CachePlaces sCachePlaces;
 
     public static CachePlaces getInstance() {
@@ -38,7 +39,7 @@ public class CachePlaces implements PlacesDataProvider {
 
     @Override
     public void savePlace(String locationName, String description, Uri photoURI, double latitude, double longitude, OnFinishedInterfaceListener onFinishedInterfaceListener) {
-        Place place = new Place();
+        RealmPlace place = new RealmPlace();
         place.setName(locationName);
         place.setDescription(description);
         place.setImage(String.valueOf(photoURI));
@@ -50,9 +51,9 @@ public class CachePlaces implements PlacesDataProvider {
 
     @Override
     public void saveComment(String text, float rating, Uri photoURI, double latitude, double longitude) {
-/*        for (Place place : places) {
+        for (RealmPlace place : places) {
             if (Utils.compareDouble(place.getLatitude(), latitude) && Utils.compareDouble(place.getLongitude(), longitude)) {
-                Comment comment = new Comment();
+                RealmComment comment = new RealmComment();
                 comment.setComment(text);
                 comment.setRating(rating);
 
@@ -65,7 +66,7 @@ public class CachePlaces implements PlacesDataProvider {
                 if (place.getComments() == null) {
                     comments = new ArrayList<>();
                 } else {
-                    comments = (ArrayList<Comment>) place.getComments();
+                    comments = (ArrayList<RealmComment>) place.getComments();
                 }
 
                 if (StringHelper.notNullAndNotEmpty(comment.getComment()) && comment.getRating() != 0) {
@@ -79,6 +80,8 @@ public class CachePlaces implements PlacesDataProvider {
                 place.setImages(images);
                 place.setComments(comments);
             }
-        }*/
+        }
+
     }
 }
+*/

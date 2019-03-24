@@ -68,7 +68,7 @@ public class LoginActivity extends Activity implements LoginView {
 
     @Override
     public void showErrorMessage() {
-        Toast.makeText(LoginActivity.this, "User credentials are not valid", Toast.LENGTH_SHORT).show();
+        Toast.makeText(LoginActivity.this, "RealmUser credentials are not valid", Toast.LENGTH_SHORT).show();
     }
 
     @Override

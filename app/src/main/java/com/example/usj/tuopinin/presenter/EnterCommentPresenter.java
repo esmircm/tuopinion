@@ -1,7 +1,5 @@
 package com.example.usj.tuopinin.presenter;
 
-import android.net.Uri;
-
 import com.example.usj.tuopinin.StringHelper;
 import com.example.usj.tuopinin.model.PlacesDataProvider;
 import com.example.usj.tuopinin.view.interfaces.CommentView;
@@ -16,9 +14,9 @@ public class EnterCommentPresenter {
         this.placesDataProvider = placesDataProvider;
     }
 
-    public void saveComment(String text, float rating, Uri photoURI, double latitude, double longitude) {
+    public void saveComment(long placeId, String text, float rating, String photoURI) {
         if (StringHelper.notNullAndNotEmpty(text)) {
-            placesDataProvider.saveComment(text, rating, photoURI, latitude, longitude);
+            placesDataProvider.saveComment(placeId, text, rating, photoURI);
             commentView.closeFragment();
         }
         else {

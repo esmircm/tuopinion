@@ -1,9 +1,15 @@
 package com.example.usj.tuopinin.model.dao;
 
-import com.example.usj.tuopinin.model.entities.Place;
-import io.realm.Realm;
+import com.example.usj.tuopinin.model.entities.RealmComment;
+import com.example.usj.tuopinin.model.mappers.PlaceMapper;
+import com.example.usj.tuopinin.model.data_model.Place;
+import com.example.usj.tuopinin.model.entities.RealmPlace;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmList;
 
 public class PlacesDao {
 
@@ -14,15 +20,45 @@ public class PlacesDao {
     }
 
     public List<Place> getAllPlaces() {
-        return new ArrayList<>(realm.where(Place.class).findAll());
+
+        List<RealmPlace> realmPlaces = realm.where(RealmPlace.class).findAll();
+
+        List<Place> places = new ArrayList<>();
+        for (RealmPlace realmPlace : realmPlaces) {
+            places.add(PlaceMapper.mapToPlace(realmPlace));
+        }
+
+        return places;
     }
 
-    public void insertPlace(Place placeToInsert) {
+    public void insertPlace(RealmPlace placeToInsert) {
+        realm.executeTransaction(bgRealm -> bgRealm.insert(placeToInsert));
+    }
 
-        realm.executeTransactionAsync(realm -> {
-            realm.createObject(Place.class, placeToInsert);
+    public void saveComment(long placeId, RealmComment realmComment) {
+
+        RealmPlace realmPlaceToUpdate = getPlaceById(placeId);
+
+        realm.executeTransaction(bgRealm -> {
+
+            if (realmPlaceToUpdate != null) {
+
+                if (realmPlaceToUpdate.getComments() != null) {
+                    realmPlaceToUpdate.getComments().add(realmComment);
+                } else {
+                    RealmList<RealmComment> comments = new RealmList<>();
+                    comments.add(realmComment);
+                    realmPlaceToUpdate.setComments(comments);
+                }
+
+                bgRealm.insertOrUpdate(realmPlaceToUpdate);
+            }
+
         });
     }
-}
 
+    public RealmPlace getPlaceById(long id){
+        return realm.where(RealmPlace.class).equalTo("id", id).findFirst();
+    }
+}
 

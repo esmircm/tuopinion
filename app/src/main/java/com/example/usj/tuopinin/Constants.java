@@ -12,5 +12,6 @@ public class Constants {
     public static final int ADD_COMMENT = 4;
     public static final String ENTER_COMMENT = "enter_comment";
     public static final String PLACES_LIST = "places_list";
+    public static final String PLACE_ID = "place_id";
 
 }
